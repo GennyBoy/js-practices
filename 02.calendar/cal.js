@@ -11,19 +11,19 @@ let last_day_of_month = date.endOf("month").format("DD");
 let day_of_week_for_first_day_of_month = date.startOf("month").day();
 
 // 月と年を表示する
-console.log(`    ${date.locale(ja).format("MMM")} ${date.format("YYYY")}`);
+console.log(`     ${date.locale(ja).format("MMM")} ${date.format("YYYY")}`);
 console.log("日 月 火 水 木 金 土");
 
-// 最後に縦の表示を揃えたい…
-// ruby の rjust(2)みたいなのないか調べる
 // 月初の曜日まで空白を入れる
-for (let i = 0; i <= day_of_week_for_first_day_of_month; i++) {
-  process.stdout.write("  ");
+for (let i = 0; i < day_of_week_for_first_day_of_month; i++) {
+  process.stdout.write("   ");
 }
 
 let wday = day_of_week_for_first_day_of_month;
 for (let i = 1; i <= last_day_of_month; i++) {
-  process.stdout.write(`${i} `);
+  // 1桁の日の時は空白で埋める
+  process.stdout.write(`${i.toString().padStart(2, " ")} `);
+  // 土曜日になったら改行を入れる
   if (wday == 6) {
     process.stdout.write("\n");
   }
