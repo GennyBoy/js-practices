@@ -9,6 +9,7 @@
     "prettier": "^2.7.1"
   },
   "dependencies": {
-    "dayjs": "^1.11.6"
+    "dayjs": "^1.11.6",
+    "minimist": "^1.2.7"
   }
 }
