@@ -29,3 +29,6 @@ for (let i = 1; i <= last_day_of_month; i++) {
   }
   wday == 6 ? (wday = 0) : wday++;
 }
+
+// これをしないと出力結果の末尾に `%` が表示されてしまう
+process.stdout.write("\n");
