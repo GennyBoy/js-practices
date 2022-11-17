@@ -2,8 +2,8 @@
 
 let dayjs = require("dayjs");
 let ja = require("dayjs/locale/ja");
-
 let argv = require("minimist")(process.argv.slice(2));
+
 let year = argv.y || dayjs().format("YYYY");
 let month = argv.m || dayjs().format("MM");
 let date = dayjs(`${year}-${month}`, "YYYY-MM");
