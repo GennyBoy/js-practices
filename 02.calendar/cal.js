@@ -7,7 +7,7 @@ let argv = require("minimist")(process.argv.slice(2));
 let year = argv.y || dayjs().format("YYYY");
 let month = argv.m || dayjs().format("MM");
 let date = dayjs(`${year}-${month}`, "YYYY-MM");
-let last_day_of_month = date.endOf("month").format("DD");
+let last_day_of_month = date.daysInMonth();
 let day_of_week_for_first_day_of_month = date.startOf("month").day();
 
 // 月と年を表示する
