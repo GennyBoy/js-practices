@@ -22,6 +22,10 @@ class Memo {
     return this.body.split(/\n/)[0];
   }
 
+  getFileName() {
+    return `${this.id}.json`;
+  }
+
   createFile() {
     fs.writeFile(`database/${this.getFileName()}`, JSON.stringify(this))
       .then(() => {
