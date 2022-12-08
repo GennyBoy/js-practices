@@ -70,12 +70,11 @@ async function fetchAllMemoObj() {
 
 async function buildChoicesForPrompt() {
   let choices = [];
-  const memo_objects = await fetchAllMemoObj();
-  memo_objects.forEach((memo_obj) => {
+  (await fetchAllMemoObj()).forEach((memo_obj) => {
     const choice = {
       name: memo_obj.id,
-      message: memo_obj.first_line,
-      value: memo_obj.first_line,
+      message: memo_obj.getFirstLine(),
+      value: memo_obj.getFirstLine(),
     };
     choices.push(choice);
   });
