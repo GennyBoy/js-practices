@@ -48,13 +48,13 @@ class Memo {
 }
 
 async function listFirstLines() {
-  (await fetchAllMemoObj()).forEach((note_object) => {
-    console.log(note_object.getFirstLine());
+  (await fetchAllMemos()).forEach((memo) => {
+    console.log(memo.getFirstLine());
   });
 }
 
-async function fetchAllMemoObj() {
-  let memo_objects = [];
+async function fetchAllMemos() {
+  let memos = [];
 
   const files = await fs.readdir("database/");
 
@@ -63,18 +63,18 @@ async function fetchAllMemoObj() {
       encoding: "utf-8",
     });
     const memo_json = JSON.parse(memo);
-    memo_objects.push(new Memo({ id: memo_json.id, body: memo_json.body }));
+    memos.push(new Memo({ id: memo_json.id, body: memo_json.body }));
   }
-  return memo_objects;
+  return memos;
 }
 
 async function buildChoicesForPrompt() {
   let choices = [];
-  (await fetchAllMemoObj()).forEach((memo_obj) => {
+  (await fetchAllMemos()).forEach((memo) => {
     const choice = {
-      name: memo_obj.id,
-      message: memo_obj.getFirstLine(),
-      value: memo_obj.getFirstLine(),
+      name: memo.id,
+      message: memo.getFirstLine(),
+      value: memo.getFirstLine(),
     };
     choices.push(choice);
   });
@@ -110,8 +110,8 @@ if (argv.l) {
   readPrompt
     .run()
     .then((answer) => {
-      Memo.of(answer).then((memo_obj) => {
-        console.log(memo_obj.body);
+      Memo.of(answer).then((memo) => {
+        console.log(memo.body);
       });
     })
     .catch((err) => {
@@ -122,8 +122,8 @@ if (argv.l) {
     .then((value) => {
       return new Memo({ body: value });
     })
-    .then((memo_obj) => {
-      memo_obj.createFile();
+    .then((memo) => {
+      memo.createFile();
     })
     .catch((err) => {
       console.error(err);
