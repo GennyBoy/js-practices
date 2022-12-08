@@ -4,6 +4,21 @@ const fs = require("node:fs/promises");
 const argv = require("minimist")(process.argv.slice(2));
 const { Select } = require("enquirer");
 
+class Memo {
+  constructor({ id = null, body }) {
+    this.id = this.#getId(id);
+    this.body = body;
+  }
+
+  #getId(id) {
+    if (id === null) {
+      return uuidv4();
+    } else {
+      return id;
+    }
+  }
+}
+
 async function listFirstLines() {
   try {
     const files = await fs.readdir("database/");
@@ -25,11 +40,7 @@ async function readInput() {
 
 async function createMemo(body) {
   const id = uuidv4();
-  const json_body = {
-    id: id,
-    first_line: body.split(/\n/)[0],
-    body: body,
-  };
+  new Memo({ body: body });
 
   const file_name = `${id}.json`;
   fs.writeFile(`database/${file_name}`, JSON.stringify(json_body), (err) => {
@@ -44,10 +55,11 @@ async function fetchAllMemoObj() {
   const files = await fs.readdir("database/");
 
   for (const file of files) {
-    const memo_json = await fs.readFile(`database/${file}`, {
+    const memo = await fs.readFile(`database/${file}`, {
       encoding: "utf-8",
     });
-    memo_objects.push(JSON.parse(memo_json));
+    const memo_json = JSON.parse(memo);
+    memo_objects.push(new Memo({ id: memo_json.id, body: memo_json.body }));
   }
   return memo_objects;
 }
