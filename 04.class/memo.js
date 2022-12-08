@@ -10,6 +10,16 @@ class Memo {
     this.body = body;
   }
 
+  static async of(id) {
+    const file = await fs.readFile(`database/${id}.json`);
+    const memo_json = await JSON.parse(file);
+    const memo_class = await new Memo({
+      id: memo_json.id,
+      body: memo_json.body,
+    });
+    return memo_class;
+  }
+
   #getId(id) {
     if (id === null) {
       return uuidv4();
@@ -84,12 +94,6 @@ const readPrompt = new Select({
   choices: buildChoicesForPrompt(),
 });
 
-async function body(id) {
-  const file = await fs.readFile(`database/${id}.json`);
-  const memo_obj = JSON.parse(file);
-  console.log(memo_obj.body);
-}
-
 if (argv.l) {
   listFirstLines();
 } else if (argv.d) {
@@ -99,9 +103,16 @@ if (argv.l) {
     });
   });
 } else if (argv.r) {
-  readPrompt.run().then((answer) => {
-    body(answer);
-  });
+  readPrompt
+    .run()
+    .then((answer) => {
+      Memo.of(answer).then((memo_obj) => {
+        console.log(memo_obj.body);
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 } else {
   fs.readFile("/dev/stdin", "utf8")
     .then((value) => {
