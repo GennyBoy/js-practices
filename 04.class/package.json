@@ -9,6 +9,7 @@
     "prettier": "^2.7.1"
   },
   "dependencies": {
+    "minimist": "^1.2.7",
     "uuid": "^9.0.0"
   }
 }
