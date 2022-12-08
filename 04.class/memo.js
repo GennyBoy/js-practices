@@ -21,26 +21,21 @@ class Memo {
   getFirstLine() {
     return this.body.split(/\n/)[0];
   }
+
+  createFile() {
+    fs.writeFile(`database/${this.getFileName()}`, JSON.stringify(this))
+      .then(() => {
+        console.log("正常に書き込みが完了しました");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
 }
 
 async function listFirstLines() {
   (await fetchAllMemoObj()).forEach((note_object) => {
     console.log(note_object.getFirstLine());
-  });
-}
-
-async function readInput() {
-  return fs.readFile("/dev/stdin", "utf8");
-}
-
-async function createMemo(body) {
-  const id = uuidv4();
-  new Memo({ body: body });
-
-  const file_name = `${id}.json`;
-  fs.writeFile(`database/${file_name}`, JSON.stringify(json_body), (err) => {
-    if (err) throw err;
-    console.log("正常に書き込みが完了しました");
   });
 }
 
@@ -104,11 +99,14 @@ if (argv.l) {
     body(answer);
   });
 } else {
-  readInput()
+  fs.readFile("/dev/stdin", "utf8")
     .then((value) => {
-      createMemo(value);
+      return new Memo({ body: value });
     })
-    .catch((error) => {
-      console.log(error);
+    .then((memo_obj) => {
+      memo_obj.createFile();
+    })
+    .catch((err) => {
+      console.error(err);
     });
 }
