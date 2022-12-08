@@ -97,11 +97,16 @@ const readPrompt = new Select({
 if (argv.l) {
   listFirstLines();
 } else if (argv.d) {
-  deletePrompt.run().then((answer) => {
-    fs.rm(`database/${answer}.json`).then(() => {
-      console.log("deleted the file");
+  deletePrompt
+    .run()
+    .then((answer) => {
+      fs.rm(`database/${answer}.json`).then(() => {
+        console.log("deleted the file");
+      });
+    })
+    .catch((err) => {
+      console.error(err);
     });
-  });
 } else if (argv.r) {
   readPrompt
     .run()
