@@ -72,6 +72,18 @@ const deletePrompt = new Select({
   choices: buildChoicesForPrompt(),
 });
 
+const readPrompt = new Select({
+  name: "note",
+  message: "Choose a note you want to see:",
+  choices: buildChoicesForPrompt(),
+});
+
+async function body(id) {
+  const file = await fs.readFile(`database/${id}.json`);
+  const memo_obj = JSON.parse(file);
+  console.log(memo_obj.body);
+}
+
 if (argv.l) {
   listFirstLines();
 } else if (argv.d) {
@@ -79,6 +91,10 @@ if (argv.l) {
     fs.rm(`database/${answer}.json`).then(() => {
       console.log("deleted the file");
     });
+  });
+} else if (argv.r) {
+  readPrompt.run().then((answer) => {
+    body(answer);
   });
 } else {
   readInput()
