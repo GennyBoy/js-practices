@@ -17,21 +17,16 @@ class Memo {
       return id;
     }
   }
+
+  getFirstLine() {
+    return this.body.split(/\n/)[0];
+  }
 }
 
 async function listFirstLines() {
-  try {
-    const files = await fs.readdir("database/");
-    for (const file of files) {
-      const memo_json = await fs.readFile(`database/${file}`, {
-        encoding: "utf-8",
-      });
-      const memo_obj = JSON.parse(memo_json);
-      console.log(memo_obj.first_line);
-    }
-  } catch (err) {
-    console.error(err);
-  }
+  (await fetchAllMemoObj()).forEach((note_object) => {
+    console.log(note_object.getFirstLine());
+  });
 }
 
 async function readInput() {
