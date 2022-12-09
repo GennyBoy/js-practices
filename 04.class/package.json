@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "scripts": {
     "fix": "prettier --write . && eslint --fix .",
     "lint": "prettier --check . && eslint ."
