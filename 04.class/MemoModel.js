@@ -3,6 +3,9 @@ import { v4 as uuidv4 } from "uuid";
 
 export class Memo {
   constructor({ id = null, body }) {
+    if (!body.trim()) {
+      throw "Memo instance can not be initiated with empty body";
+    }
     this.id = this.#getId(id);
     this.body = body;
   }

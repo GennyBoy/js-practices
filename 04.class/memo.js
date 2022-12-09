@@ -78,14 +78,12 @@ if (argv.l) {
       console.error(err);
     });
 } else {
-  fs.readFile("/dev/stdin", "utf8")
-    .then((value) => {
-      return new Memo({ body: value });
-    })
-    .then((memo_obj) => {
-      memo_obj.createFile();
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  const input = await fs.readFile("/dev/stdin", "utf8");
+  try {
+    const memo = new Memo({ body: input });
+    memo.createFile();
+  } catch (e) {
+    console.error(e);
+    console.error("Failed to create a memo!");
+  }
 }
