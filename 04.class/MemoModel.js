@@ -39,7 +39,7 @@ export class Memo {
   createFile() {
     fs.writeFile(`database/${this.getFileName()}`, JSON.stringify(this))
       .then(() => {
-        console.log("正常に書き込みが完了しました");
+        console.log("Created a file");
       })
       .catch((err) => {
         console.error(err);

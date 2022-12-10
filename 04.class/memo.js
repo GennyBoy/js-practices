@@ -60,7 +60,7 @@ if (argv.l) {
     .run()
     .then((answer) => {
       fs.rm(`database/${answer}.json`).then(() => {
-        console.log("deleted the file");
+        console.log("Deleted the file");
       });
     })
     .catch((err) => {
