@@ -21,11 +21,7 @@ export class Memo {
   }
 
   #getId(id) {
-    if (id === null) {
-      return uuidv4();
-    } else {
-      return id;
-    }
+    return id ?? uuidv4();
   }
 
   getFirstLine() {
