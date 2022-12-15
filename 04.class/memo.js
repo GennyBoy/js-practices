@@ -14,7 +14,7 @@ async function listFirstLines() {
 }
 
 async function fetchAllMemos() {
-  let memos = [];
+  const memos = [];
 
   const files = await fs.readdir("database/");
 
@@ -29,7 +29,7 @@ async function fetchAllMemos() {
 }
 
 async function buildChoicesForPrompt() {
-  let choices = [];
+  const choices = [];
   (await fetchAllMemos()).forEach((memo) => {
     const choice = {
       name: memo.id,
