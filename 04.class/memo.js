@@ -29,14 +29,13 @@ async function fetchAllMemos() {
 }
 
 async function buildChoicesForPrompt() {
-  const choices = [];
-  (await fetchAllMemos()).forEach((memo) => {
+  const choices = (await fetchAllMemos()).map((memo) => {
     const choice = {
       name: memo.id,
       message: memo.getFirstLine(),
       value: memo.getFirstLine(),
     };
-    choices.push(choice);
+    return choice;
   });
   return choices;
 }
