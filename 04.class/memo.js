@@ -7,30 +7,8 @@ import { Memo } from "./MemoModel.js";
 const { Select } = pkg;
 const argv = minimist(process.argv.slice(2));
 
-async function listFirstLines() {
-  (await fetchAllMemos()).forEach((memo) => {
-    console.log(memo.getFirstLine());
-  });
-}
-
-async function fetchAllMemos() {
-  const files = await fs.readdir("database/");
-
-  const memos = Promise.all(
-    files.map(async (file) => {
-      const memo = await fs.readFile(`database/${file}`, {
-        encoding: "utf-8",
-      });
-      const memo_json = JSON.parse(memo);
-      return new Memo({ id: memo_json.id, body: memo_json.body });
-    })
-  );
-
-  return memos;
-}
-
 async function buildChoicesForPrompt() {
-  const choices = (await fetchAllMemos()).map((memo) => {
+  const choices = (await Memo.fetchAllMemos()).map((memo) => {
     const choice = {
       name: memo.id,
       message: memo.getFirstLine(),
@@ -54,7 +32,7 @@ const readPrompt = new Select({
 });
 
 if (argv.l) {
-  listFirstLines();
+  Memo.listFirstLines();
 } else if (argv.d) {
   deletePrompt
     .run()

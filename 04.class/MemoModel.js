@@ -20,6 +20,28 @@ export class Memo {
     return memo_class;
   }
 
+  static async listFirstLines() {
+    (await this.fetchAllMemos()).forEach((memo) => {
+      console.log(memo.getFirstLine());
+    });
+  }
+
+  static async fetchAllMemos() {
+    const files = await fs.readdir("database/");
+
+    const memos = Promise.all(
+      files.map(async (file) => {
+        const memo = await fs.readFile(`database/${file}`, {
+          encoding: "utf-8",
+        });
+        const memo_json = JSON.parse(memo);
+        return new Memo({ id: memo_json.id, body: memo_json.body });
+      })
+    );
+
+    return memos;
+  }
+
   #getId(id) {
     return id ?? uuidv4();
   }
