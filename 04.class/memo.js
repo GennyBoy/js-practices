@@ -14,17 +14,18 @@ async function listFirstLines() {
 }
 
 async function fetchAllMemos() {
-  const memos = [];
-
   const files = await fs.readdir("database/");
 
-  for (const file of files) {
-    const memo = await fs.readFile(`database/${file}`, {
-      encoding: "utf-8",
-    });
-    const memo_json = JSON.parse(memo);
-    memos.push(new Memo({ id: memo_json.id, body: memo_json.body }));
-  }
+  const memos = Promise.all(
+    files.map(async (file) => {
+      const memo = await fs.readFile(`database/${file}`, {
+        encoding: "utf-8",
+      });
+      const memo_json = JSON.parse(memo);
+      return new Memo({ id: memo_json.id, body: memo_json.body });
+    })
+  );
+
   return memos;
 }
 
