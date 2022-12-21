@@ -13,10 +13,7 @@ export class Memo {
   static async of(id) {
     const file = await fs.readFile(`database/${id}.json`);
     const memo_json = await JSON.parse(file);
-    const memo_class = await new Memo({
-      id: memo_json.id,
-      body: memo_json.body,
-    });
+    const memo_class = await new Memo({ ...memo_json });
     return memo_class;
   }
 
