@@ -8,7 +8,7 @@ const { Select } = pkg;
 const argv = minimist(process.argv.slice(2));
 
 async function buildChoicesForPrompt() {
-  const choices = (await Memo.fetchAllMemos()).map((memo) => {
+  const choices = (await Memo.fetchAll()).map((memo) => {
     const choice = {
       name: memo.id,
       message: memo.getFirstLine(),

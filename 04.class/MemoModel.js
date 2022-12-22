@@ -18,12 +18,12 @@ export class Memo {
   }
 
   static async listFirstLines() {
-    (await this.fetchAllMemos()).forEach((memo) => {
+    (await this.fetchAll()).forEach((memo) => {
       console.log(memo.getFirstLine());
     });
   }
 
-  static async fetchAllMemos() {
+  static async fetchAll() {
     const files = await fs.readdir("database/");
 
     const memos = Promise.all(
