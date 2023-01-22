@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>Fetch Fjord BootCamp Top Page</title>
+  </head>
+  <body>
+    <h1>フィヨルドブートキャンプのトップページのHTMLを取得</h1>
+
+    <button onclick="fetchFjordTopPage();">HTMLを取得</button>
+    <script type="text/javascript">
+      const fetchHtml = async (url) => {
+        const response = await fetch(url);
+        return response.text();
+      };
+
+      const fetchFjordTopPage = () => {
+        fetchHtml("https://bootcamp.fjord.jp/")
+          .then((result) => {
+            console.log(result);
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
+      };
+    </script>
+  </body>
+</html>
